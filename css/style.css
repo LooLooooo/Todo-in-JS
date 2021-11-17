@@ -1,0 +1,13 @@
+body {
+    background-color: snow;
+}
+
+h2 {
+    font-size: 120px;
+    text-align: center;
+}
+
+#todo-form input {
+    width: 400px;
+    height: 60px;
+}
