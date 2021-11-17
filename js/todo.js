@@ -11,18 +11,34 @@ function saveToDos(){
 
 function paintToDo(newTodo) {
   const li = document.createElement("li");
-  const span = document.createElement("span");
-  const button = document.createElement("button")
+  const content = document.createElement("span");
+  const check = document.createElement("input")
+  const remove = document.createElement("button")
 
-  button.addEventListener("click", deleteTodo)
 
-  li.appendChild(span);
-  li.id = newTodo.id
+  check.addEventListener("change", checkTodo)
+  remove.addEventListener("click", removeTodo)
 
-  button.innerText = "💥"
-  li.appendChild(button)
+
+  if(newTodo.check !== ""){
+    check.checked = "true"
+  }
+
+  check.type = "checkbox"
+  li.appendChild(check)
   
-  span.innerText = newTodo.text;
+  if(newTodo.font !== ""){
+    content.style.textDecoration = "line-through"
+  }
+
+  li.id = newTodo.id
+  li.appendChild(content);
+
+  remove.innerText = "💥"
+  li.appendChild(remove)
+
+
+  content.innerText = newTodo.text;
 
   toDoList.appendChild(li);
 }
@@ -31,10 +47,12 @@ function handleToDoSubmit(event) {
     event.preventDefault();
 
     const newTodo = toDoInput.value;
-    
+
     const newTodoObj = {
         text : newTodo,
-        id : Date.now()
+        id : Date.now(),
+        font : "",
+        check : ""
     }
     
     toDos.push(newTodoObj)
@@ -47,7 +65,7 @@ function handleToDoSubmit(event) {
     paintToDo(newTodoObj);
 }
 
-function deleteTodo(event){
+function removeTodo(event){
       const li = event.target.parentElement
       li.remove()
 
@@ -56,6 +74,31 @@ function deleteTodo(event){
       saveToDos()
 }
 
+function checkTodo(event){
+      const li = event.target.parentElement
+      const text = li.children[1].style.textDecoration
+
+      if(text !== "line-through"){
+        li.children[1].style.textDecoration = "line-through"
+
+        toDos = toDos.filter( (todo) => todo.id !== li.id)
+        localStorage.clear()
+        
+        toDos.push( {
+          text : li.children[1].innerText,
+          id : li.id,
+          font : li.children[1].style.textDecoration,
+          check : li.children[0].checked
+        })
+
+        saveToDos()
+
+      }else {
+        li.children[1].style.textDecoration = ""
+      }
+
+      console.log()
+}
 toDoForm.addEventListener("submit", handleToDoSubmit)
 
 const savedToDos = localStorage.getItem(TODOS_KEY)

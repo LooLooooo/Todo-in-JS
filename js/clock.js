@@ -8,5 +8,7 @@ function Clock(){
     clock.innerText = `${hours} : ${minutes} : ${sec}`
 }
 
+
 Clock()
 setInterval(Clock, 1000);
+console.dir()
