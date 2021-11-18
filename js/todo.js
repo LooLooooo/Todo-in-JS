@@ -76,29 +76,23 @@ function removeTodo(event){
 
 function checkTodo(event){
       const li = event.target.parentElement
-      const text = li.children[1].style.textDecoration
+      const LINE = li.children[1].style.textDecoration
+      
+      const index = toDos.findIndex( value => 
+        value.id === parseInt(li.id)
+      )
 
-      if(text !== "line-through"){
+      if(LINE !== "line-through")
         li.children[1].style.textDecoration = "line-through"
-
-        toDos = toDos.filter( (todo) => todo.id !== li.id)
-        localStorage.clear()
-        
-        toDos.push( {
-          text : li.children[1].innerText,
-          id : li.id,
-          font : li.children[1].style.textDecoration,
-          check : li.children[0].checked
-        })
-
-        saveToDos()
-
-      }else {
+      else
         li.children[1].style.textDecoration = ""
-      }
+    
+     toDos[index].font = li.children[1].style.textDecoration
+     toDos[index].check = li.children[0].checked
 
-      console.log()
+     saveToDos()
 }
+
 toDoForm.addEventListener("submit", handleToDoSubmit)
 
 const savedToDos = localStorage.getItem(TODOS_KEY)
