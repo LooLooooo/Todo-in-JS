@@ -2,7 +2,11 @@ const toDoForm = document.querySelector("#todo-form")
 const toDoInput = document.querySelector("#todo-form input");
 const toDoList = document.getElementById("todo-list");
 
+console.dir(toDoInput)
+toDoInput.maxLength="15"
+
 let toDos = []
+
 const TODOS_KEY = "todos"
 
 function saveToDos(){
@@ -12,24 +16,20 @@ function saveToDos(){
 function paintToDo(newTodo) {
   const li = document.createElement("li");
   const content = document.createElement("span");
-  const check = document.createElement("input")
   const remove = document.createElement("button")
+  const hidden = document.createElement("input")
 
+  content.addEventListener("click", handleToDoClick)
 
-  check.addEventListener("change", checkTodo)
   remove.addEventListener("click", removeTodo)
-
-
-  if(newTodo.check !== ""){
-    check.checked = "true"
-  }
-
-  check.type = "checkbox"
-  li.appendChild(check)
   
-  if(newTodo.font !== ""){
-    content.style.textDecoration = "line-through"
+  if(newTodo.result !== ""){
+    content.style.color = "darkgray"
   }
+  hidden.type = "hidden"
+  hidden.value = ""
+
+  li.appendChild(hidden)
 
   li.id = newTodo.id
   li.appendChild(content);
@@ -37,10 +37,31 @@ function paintToDo(newTodo) {
   remove.innerText = "💥"
   li.appendChild(remove)
 
-
   content.innerText = newTodo.text;
 
   toDoList.appendChild(li);
+}
+
+function handleToDoClick(event){
+  const li = event.target.parentElement
+  const span = event.target
+  const hidden = event.target.parentElement.children[0]
+
+  const INDEX = toDos.findIndex( value => 
+    value.id === parseInt(li.id)
+  )
+  
+  if(hidden.value !== "complete"){
+    hidden.value = "complete"
+    span.style.color = "darkgray"
+  }else{
+    hidden.value = ""
+    span.style.color = "black"
+  }
+
+  toDos[INDEX].result = hidden.value
+
+  saveToDos()
 }
 
 function handleToDoSubmit(event) {
@@ -51,8 +72,7 @@ function handleToDoSubmit(event) {
     const newTodoObj = {
         text : newTodo,
         id : Date.now(),
-        font : "",
-        check : ""
+        result : "",
     }
     
     toDos.push(newTodoObj)
@@ -72,25 +92,6 @@ function removeTodo(event){
       toDos = toDos.filter( (toDo) => toDo.id !== parseInt(li.id))
       
       saveToDos()
-}
-
-function checkTodo(event){
-      const li = event.target.parentElement
-      const LINE = li.children[1].style.textDecoration
-      
-      const index = toDos.findIndex( value => 
-        value.id === parseInt(li.id)
-      )
-
-      if(LINE !== "line-through")
-        li.children[1].style.textDecoration = "line-through"
-      else
-        li.children[1].style.textDecoration = ""
-    
-     toDos[index].font = li.children[1].style.textDecoration
-     toDos[index].check = li.children[0].checked
-
-     saveToDos()
 }
 
 toDoForm.addEventListener("submit", handleToDoSubmit)
