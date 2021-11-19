@@ -2,7 +2,6 @@ const toDoForm = document.querySelector("#todo-form")
 const toDoInput = document.querySelector("#todo-form input");
 const toDoList = document.getElementById("todo-list");
 
-console.dir(toDoInput)
 toDoInput.maxLength="15"
 
 let toDos = []
@@ -20,12 +19,12 @@ function paintToDo(newTodo) {
   const hidden = document.createElement("input")
 
   content.addEventListener("click", handleToDoClick)
-
   remove.addEventListener("click", removeTodo)
   
   if(newTodo.result !== ""){
     content.style.color = "darkgray"
   }
+
   hidden.type = "hidden"
   hidden.value = ""
 
@@ -34,7 +33,7 @@ function paintToDo(newTodo) {
   li.id = newTodo.id
   li.appendChild(content);
 
-  remove.innerText = "💥"
+  remove.innerText = "🗑"
   li.appendChild(remove)
 
   content.innerText = newTodo.text;
@@ -60,8 +59,18 @@ function handleToDoClick(event){
   }
 
   toDos[INDEX].result = hidden.value
-
   saveToDos()
+}
+
+function handleMouseEnter(event){
+  const button = event.target.children[2]
+  console.dir(event)
+  button.style.visibility = "visible"
+}
+
+function handleMouseOut(event){
+  const button = event.currentTarget.children[2]
+  button.style.visibility = "hidden"
 }
 
 function handleToDoSubmit(event) {

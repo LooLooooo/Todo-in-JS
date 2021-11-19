@@ -22,10 +22,8 @@ h2 {
     border-left: none;
     border-right: none;
     background-color: unset;
-    font-size: 30px;
+    font-size: 35px;
     margin-left: 20px;
-    position: absolute;
-    right: 290px;
 }
 
 #todo-list input {
@@ -39,9 +37,5 @@ li {
     text-align: center;
     margin-top: 30px;
     margin-bottom: 30px;
-    font-size: 30px;
-}
-
-p {
-    font-size: 300px;
+    font-size: 20px;
 }
