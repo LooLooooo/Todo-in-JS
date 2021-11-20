@@ -31,7 +31,11 @@ h2 {
     height: 20px;
 }
 
-
+#weather {
+    text-align: center;
+    font-size: 50px;
+    margin-bottom: 50px;
+}
 li {
     list-style:none;
     text-align: center;
