@@ -13,6 +13,7 @@ function onGeoOk(position){
         const city = document.querySelector("#weather span:first-child")
         const weather = document.querySelector("#weather span:last-child")
     
+        console.dir(data)
         city.innerText = data.name
         weather.innerText = `${data.weather[0].description}     ${data.main.temp}º`
     })
