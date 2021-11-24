@@ -15,7 +15,7 @@ function onGeoOk(position){
     
         console.dir(data)
         city.innerText = data.name
-        weather.innerText = `${data.weather[0].description}     ${data.main.temp}º`
+        weather.innerText = `${data.weather[0].description}     ${Math.floor(data.main.temp)}º`
     })
 }
 function onGeoError(){
